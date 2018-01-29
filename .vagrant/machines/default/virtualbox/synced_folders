@@ -1,0 +1,1 @@
+{"virtualbox":{"/vagrant/storage":{"create":true,"guestpath":"/vagrant/storage","hostpath":"/Users/relik/Projects/bitcoin-full-node/storage","disabled":false,"__vagrantfile":true},"/vagrant":{"guestpath":"/vagrant","hostpath":"/Users/relik/Projects/bitcoin-full-node","disabled":false,"__vagrantfile":true}}}
