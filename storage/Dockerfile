@@ -1,28 +1,24 @@
 FROM ubuntu:16.04
 
-LABEL description="Base image for Bitcoin (BTC) fullnode"
+LABEL description="Base image for Bitcoin (BTN) fullnode"
 LABEL maintainer="mike@r3lik.com"
 LABEL version="0.1"
 
-WORKDIR /tmp
+RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 8842ce5e && \
+    echo "deb http://ppa.launchpad.net/bitcoin/bitcoin/ubuntu xenial main" \
+    > /etc/apt/sources.list.d/bitcoin.list
 
-RUN apt-get update \
-    && apt-get -y --no-install-recommends install ca-certificates curl unzip \
-    && curl -L -O https://github.com/electroneum/electroneum/releases/download/v0.11.0.0/linux-x64-0.11.0.0.zip \
-    && unzip linux-x64-0.11.0.0.zip \
-    && rm linux-x64-0.11.0.0.zip \
-    && mv electroneumd /usr/local/bin/electroneumd \
-    && chmod a+x /usr/local/bin/electroneumd \
-    && rm -r * \
-    && apt-get -y remove ca-certificates curl unzip \
-    && apt-get -y autoremove \
-    && apt-get clean autoclean \
-    && rm -rf /var/lib/{apt,dpkg,cache,log}
+RUN apt-get update && \
+    apt-get install -y bitcoind && \
+    apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
-# blockchain location
-VOLUME /root/.electroneum
+ENV HOME /root
 
-ENTRYPOINT ["electroneumd"]
+VOLUME ["/root/.bitcoin"]
 
-# allow connections
-CMD ["--restricted-rpc", "--rpc-bind-ip=0.0.0.0", "--confirm-external-bind"]
+EXPOSE 8332 8333
+
+WORKDIR $HOME
+
+ENTRYPOINT ["bitcoind"]
+CMD ["-printtoconsole"]
