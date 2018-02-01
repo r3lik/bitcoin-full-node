@@ -1,6 +1,6 @@
 FROM ubuntu:16.04
 
-LABEL description="Base image for Bitcoin (BTN) fullnode"
+LABEL description="Base image for Bitcoin (BTC) fullnode"
 LABEL maintainer="mike@r3lik.com"
 LABEL version="0.1"
 
